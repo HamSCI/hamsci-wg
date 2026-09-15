@@ -5,9 +5,9 @@ A template repository for creating websites for HamSCI working groups.
 
 # How to Use This Repository
 - [X] Create a new repository using this template.
-- [ ] Update docs/_config.yml with information about the specific hardware you're documenting.
-- [ ] Populate the docs pages. 
-- [ ] Edit CITATION.cff file.
+- [ ] Update docs/_config.yml with information about your working group. You'll need to change where it says "hamsci-wg" to whatever you want the working group's link to be.
+- [ ] Populate the docs pages. You can edit their titles or add/delete pages as needed; they will appear on the site in filename order.
+- [ ] Edit CITATION.cff file, if you want to be able to cite this repo. If not, delete that file.
 - [ ] [Select a license](https://choosealicense.com/non-software/) and add a LICENSE.txt file.
 - [ ] Under Settings>Pages, set this to deploy via Github Actions. (It will run the pages.yml actions already in the repository.)
 - [ ] Verify that the documentation pages are published on hamsci.github.io.

@@ -11,6 +11,7 @@ A template repository for creating websites for HamSCI working groups.
 - [ ] [Select a license](https://choosealicense.com/non-software/) and add a LICENSE.txt file.
 - [ ] Under Settings>Pages, set this to deploy via Github Actions. (It will run the pages.yml actions already in the repository.)
 - [ ] Verify that the documentation pages are published on hamsci.github.io.
+- [ ] Optionally, replace the favicons in \docs\assets with favicons related to your working group. These can be generated at https://favicon.io/.
 - [ ] Change the paragraph above to add a description of your working group, and delete this checklist from the README.
 - [ ] To create an archive of the group's work by archiving this repository, [synchronize to a Zenodo repository](https://help.zenodo.org/docs/github/enable-repository/), publish a release, and add DOI badge here.
 

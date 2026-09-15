@@ -10,7 +10,7 @@ permalink: /results/
 {:toc}
 
 ## Datasets
-{% bibliography --file datasets.bib --all %}
+{% bibliography -f datasets.bib %}
 
 ## Publications
-
+{% bibliography -f publications.bib %}

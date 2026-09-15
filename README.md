@@ -9,7 +9,7 @@ A template repository for creating websites for HamSCI working groups.
 - [ ] Populate the docs pages. 
 - [ ] Edit CITATION.cff file.
 - [ ] [Select a license](https://choosealicense.com/non-software/) and add a LICENSE.txt file.
-- [ ] Under Settings>Pages, set this to deploy as a Github page with main/docs as the root directory. You can find an example screenshot [here](https://github.com/HamSCI/hamsci-hardware/blob/main/docs/assets/images/deployment.png).
+- [ ] Under Settings>Pages, set this to deploy via Github Actions. (It will run the pages.yml actions already in the repository.)
 - [ ] Verify that the documentation pages are published on hamsci.github.io.
 - [ ] To create an archive of the group's work by archiving this repository, [synchronize to a Zenodo repository](https://help.zenodo.org/docs/github/enable-repository/), publish a release, and add DOI badge here.
 

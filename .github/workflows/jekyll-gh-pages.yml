@@ -22,12 +22,15 @@ jobs:
         with:
           ruby-version: '3.2'
           bundler-cache: true
+          working-directory: ./docs
 
       - name: Install Dependencies
+        working-directory: ./docs
         run: bundle install
 
       - name: Build Jekyll Site
-        run: bundle exec jekyll build --source ./docs --destination ./_site
+        working-directory: ./docs
+        run: bundle exec jekyll build --destination ../_site
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3

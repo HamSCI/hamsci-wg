@@ -35,10 +35,16 @@ must not be committed (see `.claude/rules/hamsci-data.md`):
 - Fine-grained station coordinates tied to an individual
 - Unpublished data from a collaborator or a project instrument
 - Credentials, API keys, tokens, or `.env` files with real values
-- LaTeX build artifacts, large binary data, or identifiable student records
+- LaTeX intermediates (`.aux`, `.log`, `.bbl` and the like), large binary data, or identifiable
+  student records. The compiled PDF is **not** an intermediate: it is committed with its source
 
 If any callsigns or contributor names were added or changed in this session, verify them against
 their source before committing. A misattributed observation is harder to retract than to prevent.
+
+### 2b. Check the curated record is included
+Every memo, note or report PDF this session produced or changed is staged alongside its source
+and was rebuilt from the source being committed. Bulk generated output (figure batches, plot
+sets, galleries, image compilations) is not staged; see `CLAUDE.md`.
 
 ### 3. Ask the user for session purpose
 Draft a purpose of this session for the AI log. Show it to the user, and ask them to confirm.
@@ -60,43 +66,68 @@ Present the draft to the user. Wait for confirmation or corrections.
 
 ### 5. Append the entry to `ai/ai_usage_log.md`
 
-### 6. Commit in submodules FIRST (if any have changes)
-For each submodule with changes:
+### 6. Every repo with changes: feature branch, commit, push the branch, open a PR
+Nothing is committed directly to `main`, in this repo or any submodule. Work the submodules
+first, then the main repo. For each repo with changes, propose a short kebab-case branch name
+with the commit message and wait for the user's approval. Then:
 ```bash
-git -C <submodule-path> add <files>
-git -C <submodule-path> commit -m "[AI-assisted] <description>"
+git -C <repo> fetch
+git -C <repo> switch -c <topic> origin/main     # uncommitted changes carry over to the branch
+git -C <repo> add <files>
+git -C <repo> commit -m "[AI-assisted] <description>"
+git -C <repo> push -u origin <topic>
+gh pr create --repo <owner>/<repo> --base main --head <topic> --title "..." --body-file <file>
 ```
+If the repo is already on a feature branch whose PR is still open **for this same change**, add
+the commit there and push it; do not open a second PR. If it is on some other branch, say so and
+ask before branching.
 
-If there are no submodules, or none have changes, skip this step.
+The PR body says what changed and why, references the tracking issue, links the companion PRs
+in the other repos of the same change, and ends with an AI attribution line. Pushing the feature
+branch, opening the PR and pushing further commits to it are standing permission once the user
+has approved the commit. **Never push `main`. Never merge**: a human maintainer reviews and merges. A repo
+whose remote cannot host a PR (an Overleaf project, say) is outside this step; ask.
 
-### 7. Commit in the main repo
-Stage `ai/ai_usage_log.md`, any updated submodule pointers, and any other changed project files:
-```bash
-git add ai/ai_usage_log.md <other-files-and-submodule-pointers>
-git commit -m "[AI-assisted] <description>"
-```
+In the main repo, stage `ai/ai_usage_log.md` with the other changed files. **Do not stage a
+submodule pointer that names an unmerged branch commit.**
 
-### 8. Fill in the git hash(es)
+A brand-new repository whose remote has no `main` yet is the one exception: its first commit
+seeds `main`. Ask before that push.
+
+### 7. Fill in the git hash(es)
 ```bash
 git log --oneline -1
 ```
-Update the log entry's **Git Hash** field with the main-repo hash and any submodule hashes (e.g., `main=abc1234, overleaf=def5678`).
+Update the entry's **Git Hash** field with the branch commit and PR for each repo (e.g.
+`main-repo=abc1234 (PR owner/repo#5), sub=def5678 (PR owner/sub#3)`). Commit that on the same
+branch with a plain message without the `[AI-assisted]` prefix, such as
+`Update AI usage log with git hashes`, and push it.
 
-If updating the hash field requires a follow-up commit, use a non-`[AI-assisted]` commit message such as `Update AI usage log with git hashes`.
+That is the last log update for this change, and it never needs a PR of its own. A merge commit
+keeps every branch SHA, so the recorded hash stays valid after the merge. If a PR is squash- or
+rebase-merged, its branch SHAs no longer exist: correct them to the merged SHA on the next
+branch that touches the log.
 
-### 9. Ask before pushing
-Never push without explicit user instruction.
-
-When the user does authorize a push and the repo has submodules, push in this order:
-**submodule first, then the parent.** Verify the submodule commit has reached a remote before
-pushing the parent:
-
+### 8. After a submodule PR merges: bump the pointer
 ```bash
-git -C <submodule-path> branch -r --contains HEAD
+git -C <sub> switch main && git -C <sub> pull --ff-only && git -C <sub> branch -d <topic>
+git add <sub> && git commit -m "Bump <sub> to merged PR #N"
 ```
+Make that commit on the main repo's feature branch: the still-open PR for the same change if
+there is one, otherwise a new branch and PR. The pointer-bump commit is this repo's record of
+the merged submodule SHA; the log needs no further update.
 
-Empty output means the commit exists only on this machine, so the parent must wait. A parent
-pushed ahead of its submodule looks correct locally and breaks for every clone.
+### 9. Pushing
+Never push `main`. The feature-branch pushes above are the one standing exception; ask before
+any other push. Fetch and verify the remote state first, push fast-forward only, never
+force-push, never hard-reset.
+
+With submodules, **push the submodule before the parent**. A parent that reaches GitHub ahead
+of its submodule looks correct on the machine that pushed it and breaks for everyone who clones.
+Verify first:
+```bash
+git -C <submodule-path> branch -r --contains HEAD   # empty output = local only; push it first
+```
 
 ## Notes
 

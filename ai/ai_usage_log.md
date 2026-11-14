@@ -65,3 +65,20 @@ command produces this format and appends it in the right order.
 - **Nature of Contribution**: Scaffolding and adaptation of an existing template
 - **Human Review Status**: Reviewed and verified by N. A. Frissell (W2NAF), 2026-09-26
 - **Git Hash**: 49ba1f3
+
+## [2026-11-14 15:09 UTC]
+- **Tool**: Claude (Anthropic), claude-opus-5-5
+- **Session Purpose**: Bring PR #3 up to date with `HamSCI/ai_project_template`, from `ae4773a` to
+  `a09f960` (template PRs #1–#7): branch-then-PR workflow, AI log hash recorded on the change's
+  own branch, the curated-documents rule, and the session-start template check with
+  `/template-sync`. The template's changes were applied as changes, keeping the working-group
+  adaptations (getting-started guide in `ai/`, the public-repository warning, the `src/README.md`
+  note in the Python rule).
+- **Sections/Files Affected**: `CLAUDE.md`, `README.md`, `.gitignore`, `.claude/settings.json`,
+  `.claude/commands/commit.md`, `.claude/commands/template-sync.md` (new),
+  `.claude/hooks/template_check.sh` (new), `.claude/template.json` (new, pinned at `a09f960`),
+  `.claude/rules/ai-governance.md`, `.claude/rules/latex-writing.md`, `.claude/rules/python-code.md`,
+  `ai/GETTING_STARTED.md`
+- **Nature of Contribution**: Template sync and adaptation
+- **Human Review Status**: Pending review by N. A. Frissell (W2NAF)
+- **Git Hash**: pending

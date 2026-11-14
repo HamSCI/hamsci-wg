@@ -22,6 +22,7 @@ This template incorporates the HamSCI [AI project template](https://github.com/H
 - [ ] Prune the optional rule files: delete `.claude/rules/latex-writing.md` if the group has no LaTeX, and `.claude/rules/python-code.md` if it has no Python, and remove the matching lines from `CLAUDE.md`.
 - [ ] Add submodules if needed (an Overleaf manuscript, a separate code repository), following the commit and push order in `CLAUDE.md`.
 - [ ] Delete `ai/GETTING_STARTED.md` once the working group is running.
+- [ ] Keep `.claude/template.json`. It records that this scaffold follows `HamSCI/ai_project_template` and which template commit it last adopted, so a session-start check can report template updates and `/template-sync` can apply them. If you delete an optional rule file, add its path to `"not_adopted"` there; add any other scaffold file you edit to `"customized"`.
 
 ## Citation, license, and archiving
 - [ ] Edit the CITATION.cff file, if you want to be able to cite this repo. If not, delete that file. Do not list AI tools as authors.
@@ -38,7 +39,10 @@ This template incorporates the HamSCI [AI project template](https://github.com/H
 | `.claude/rules/hamsci-data.md` | Callsign attribution, station-location privacy, community datasets, volunteer credit. |
 | `.claude/rules/latex-writing.md` | Optional. Scoped to `.tex`, `.bib`, `.cls`, `.sty`. |
 | `.claude/rules/python-code.md` | Optional. Scoped to `.py`, `pyproject.toml`, `requirements*.txt`. |
-| `.claude/commands/commit.md` | The `/commit` workflow: log the session, commit submodules first, then the main repo. |
+| `.claude/commands/commit.md` | The `/commit` workflow: log the session, then commit each changed repo (submodules first) on a feature branch and open a pull request. |
+| `.claude/commands/template-sync.md` | The `/template-sync` workflow: apply the AI template's later changes to this repository, on a branch and through a pull request. |
+| `.claude/hooks/template_check.sh` | Session-start check, at most once a day, for changes to the AI template. Read-only; silent when offline. |
+| `.claude/template.json` | Which AI template this repository follows and which of its commits it last adopted. |
 | `ai/ai_usage_log.md` | Append-only record of every substantive AI-assisted session. |
 | `ai/GETTING_STARTED.md` | Onboarding for participants new to Claude Code or to AI governance. |
 | `.gitignore` | Jekyll, LaTeX, and Python build artifacts, bulk data formats, credentials, local Claude state. |

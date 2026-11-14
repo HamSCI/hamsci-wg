@@ -4,16 +4,59 @@ A template repository for creating websites for HamSCI working groups.
 ## [Check out the example site here.](https://hamsci.github.io/hamsci-wg)
 
 # How to Use This Repository
+New to Claude Code or to AI-use policy? Read [`ai/GETTING_STARTED.md`](ai/GETTING_STARTED.md) alongside this checklist.
+
+## Website
 - [X] Create a new repository using this template.
 - [ ] Update docs/_config.yml with information about your working group. You'll need to change where it says "hamsci-wg" to whatever you want the working group's link to be.
-- [ ] Populate the docs pages. You can edit their titles or add/delete pages as needed; they will appear on the site in filename order.
-- [ ] Edit CITATION.cff file, if you want to be able to cite this repo. If not, delete that file.
-- [ ] [Select a license](https://choosealicense.com/non-software/) and add a LICENSE.txt file.
+- [ ] Populate the docs pages. You can edit their titles or add/delete pages as needed; they will appear on the site in filename order. Everything in `docs/` is published, so keep notes and drafts elsewhere.
 - [ ] Under Settings>Pages, set this to deploy via Github Actions. (It will run the pages.yml actions already in the repository.)
 - [ ] Verify that the documentation pages are published on hamsci.github.io.
 - [ ] Optionally, replace the favicons in \docs\assets with favicons related to your working group. These can be generated at https://favicon.io/.
+
+## AI governance
+This template incorporates the HamSCI [AI project template](https://github.com/HamSCI/ai_project_template), so that AI-assisted work on the working group's website, software, and hardware is logged and disclosed by default.
+- [ ] Replace the placeholders outside the website. Find them with `grep -rn '{{' --exclude-dir=.git --exclude-dir=docs --exclude-dir=.github .` (the website's own double-brace tags are Liquid and must stay). Work through `CLAUDE.md`, `.claude/rules/ai-governance.md`, `ai/ai_usage_log.md`, and `CITATION.cff`.
+- [ ] Clear the existing entries in `ai/ai_usage_log.md`; they belong to the template's own development.
+- [ ] Trim the policy tiers in `.claude/rules/ai-governance.md`: delete Tier 2 if no institutional policy governs the work, and Tier 3 if the working group is unfunded. Tier 1 stays. Trim the tiers before replacing placeholders, since deleting a tier removes several of them.
+- [ ] Prune the optional rule files: delete `.claude/rules/latex-writing.md` if the group has no LaTeX, and `.claude/rules/python-code.md` if it has no Python, and remove the matching lines from `CLAUDE.md`.
+- [ ] Add submodules if needed (an Overleaf manuscript, a separate code repository), following the commit and push order in `CLAUDE.md`.
+- [ ] Delete `ai/GETTING_STARTED.md` once the working group is running.
+- [ ] Keep `.claude/template.json`. It records that this scaffold follows `HamSCI/ai_project_template` and which template commit it last adopted, so a session-start check can report template updates and `/template-sync` can apply them. If you delete an optional rule file, add its path to `"not_adopted"` there; add any other scaffold file you edit to `"customized"`.
+
+## Citation, license, and archiving
+- [ ] Edit the CITATION.cff file, if you want to be able to cite this repo. If not, delete that file. Do not list AI tools as authors.
+- [ ] Review the license. The repository ships with an MIT `LICENSE`, which suits the software in `src/` and the governance scaffolding. If the group's main output is non-software content, [select a license](https://choosealicense.com/non-software/) such as CC BY 4.0 and replace or supplement the `LICENSE` file, updating the `license:` field in `CITATION.cff` to match.
 - [ ] Change the paragraph above to add a description of your working group, and delete this checklist from the README.
 - [ ] To create an archive of the group's work by archiving this repository, [synchronize to a Zenodo repository](https://help.zenodo.org/docs/github/enable-repository/), publish a release, and add DOI badge here.
+
+## What the AI scaffolding provides
+
+| File | Purpose |
+|---|---|
+| `CLAUDE.md` | Project instructions Claude Code reads first in every session. Imports the binding rules. |
+| `.claude/rules/ai-governance.md` | The tiered policy stack, logging requirements, and disclosure rules. |
+| `.claude/rules/hamsci-data.md` | Callsign attribution, station-location privacy, community datasets, volunteer credit. |
+| `.claude/rules/latex-writing.md` | Optional. Scoped to `.tex`, `.bib`, `.cls`, `.sty`. |
+| `.claude/rules/python-code.md` | Optional. Scoped to `.py`, `pyproject.toml`, `requirements*.txt`. |
+| `.claude/commands/commit.md` | The `/commit` workflow: log the session, then commit each changed repo (submodules first) on a feature branch and open a pull request. |
+| `.claude/commands/template-sync.md` | The `/template-sync` workflow: apply the AI template's later changes to this repository, on a branch and through a pull request. |
+| `.claude/hooks/template_check.sh` | Session-start check, at most once a day, for changes to the AI template. Read-only; silent when offline. |
+| `.claude/template.json` | Which AI template this repository follows and which of its commits it last adopted. |
+| `ai/ai_usage_log.md` | Append-only record of every substantive AI-assisted session. |
+| `ai/GETTING_STARTED.md` | Onboarding for participants new to Claude Code or to AI governance. |
+| `.gitignore` | Jekyll, LaTeX, and Python build artifacts, bulk data formats, credentials, local Claude state. |
+
+## The rules that always apply
+
+Whatever else a working group changes about this scaffold, these stay:
+
+- **Never fabricate.** No invented citations, data, numbers, callsigns, or attributions.
+- **Humans own the science.** A human reviews AI output before it enters an artifact, and the scientific claims are the authors'.
+- **AI is not an author.** Never in an author block, an acknowledgment, or a `CITATION.cff`.
+- **Log before you commit.** Every substantive session, in `ai/ai_usage_log.md`, with a real timestamp.
+- **Disclose AI use in published outputs**, naming the tool and describing what it did.
+- **Protect contributors.** Operator personal data, unpublished collaborator data, and ITAR/EAR-controlled material never go to an external AI tool.
 
 # About HamSCI Working Groups
 ## What is a working group?
